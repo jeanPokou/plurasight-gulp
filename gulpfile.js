@@ -6,6 +6,7 @@ var $ = require('gulp-load-plugins')({
 
 var config = require('./gulp.config')();
 var del = require('del');
+var runSequence = require ('run-sequence');
 
 // funciton for anaylsing source with JsHint and JSCS
 gulp.task('vet', function () {
@@ -25,7 +26,7 @@ gulp.task('vet', function () {
 });
 
 // task styles: compile css to less
-gulp.task('styles', ['clean-styles'], function () {
+gulp.task('styles', function () {
 
     log('Compiling less --> css ');
 
@@ -48,7 +49,6 @@ gulp.task('clean-styles', function () {
     clean(files);
 
 });
-
 
 // task less-watcher : watching less files and calling styles task
 gulp.task('less-watcher', function () {
@@ -73,9 +73,13 @@ gulp.task('wiredep', function () {
 
 });
 
+gulp.task('prepare', function() {
+    runSequence('clean-styles','styles',['inject']);
+});
+
 // task inject : insert the user created styles after preprocessing
 // call concurently wiredep and styles before
-gulp.task('inject', ['styles', 'wiredep'], function () {
+gulp.task('inject', function () {
 
     log('wire up the app css ');
 
@@ -88,12 +92,10 @@ gulp.task('inject', ['styles', 'wiredep'], function () {
 
 // function for async cleaning a path
 function clean(path) {
-
     log('cleaning ' + $.util.colors.blue(path));
     return del.sync(path);
 
 }
-
 
 // function for displaying messages log in console (String or Array of items)
 function log(msg) {
