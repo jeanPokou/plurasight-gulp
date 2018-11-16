@@ -38,7 +38,7 @@
     "gulp-print": "^1.2.0",
     "gulp-util": "^3.0.6",
     "jshint-stylish": "^2.0.1",
-    "minimatch": "^2.0.10",
+    "minimatch": "^3.0.2",
     "run-sequence": "^1.1.4",
     "wiredep": "^2.2.2",
     "wrappy": "^1.0.1",
